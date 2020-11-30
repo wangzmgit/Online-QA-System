@@ -1,0 +1,174 @@
+﻿<Window x:Class="newOnlineQA.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:newOnlineQA"
+        mc:Ignorable="d"
+        Height="720" Width="1280" WindowStyle="None" AllowsTransparency="True" 
+        ResizeMode="CanResizeWithGrip" MinHeight="450" MinWidth="800">
+    <Window.Resources>
+        <local:GlobalData x:Key="GlobalData"/>
+        <Style x:Key="RadioButtonStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="0 2 0 0"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Border x:Name="border" BorderBrush="Red" BorderThickness="0"  SnapsToDevicePixels="True"/>
+                            <Border x:Name="bd2"/>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" Grid.Column="1" 
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="True">
+                                <Setter Property="FocusVisualStyle">
+                                    <Setter.Value>
+                                        <Style>
+                                            <Setter Property="Control.Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate>
+                                                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F7F7F7" TargetName="border"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Foreground"  Value="{Binding BackColor}"/>
+                                <Setter Property="BorderThickness" Value="4 0 0 0" TargetName="bd2"/>
+                                <Setter Property="BorderBrush" Value="{Binding BackColor}" TargetName="bd2"/>
+                                <Setter Property="Background" Value="{Binding BackColor}" TargetName="border"/>
+                                <Setter Property="Opacity" Value="0.05" TargetName="border"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="MyBackgroundElement" BorderBrush="{DynamicResource ForgroundBrush}" BorderThickness="0">
+                            <ContentPresenter x:Name="ButtonContentPresenter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MyBackgroundElement" Property="Background" Value="#808080"/>
+                                <Setter TargetName="MyBackgroundElement" Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <StackPanel>
+                <TextBlock Text="在线答疑系统" Foreground="#8f8f8f" FontSize="16" Margin="15 15 0 20"/>
+                <UniformGrid >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="40" Source="{Binding Source={StaticResource GlobalData},Path=Avatar}" Height="40" x:Name="avatar" Margin="10 0 0 0"/>
+                        <Button Style="{StaticResource RimlessButtonStyle}" Content="{Binding Source={StaticResource GlobalData},Path=UserName}" Click="BtnLoginClick" Name="btnLogin" Width="50" FontSize="16" Margin="5 0 0 0" Height="30" Foreground="#808080" BorderThickness="0" Background="Transparent"/>
+                        <Button Style="{StaticResource RimlessButtonStyle}" Content="注册" Click="btnRegisterClick" Name="btnRegister" Width="50" FontSize="16" Margin="20 0 0 0" Height="30" Foreground="#808080" BorderThickness="0" Background="Transparent"/>
+                    </StackPanel>
+                </UniformGrid>
+                <ListBox ItemsSource="{Binding MenuModels}" BorderThickness="0" SelectionChanged="ListBoxSelectionChanged" x:Name="list">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid>
+                                            <Border x:Name="border"/>
+                                            <ContentPresenter />
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" TargetName="border" Value="Transparent" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Style="{DynamicResource RadioButtonStyle}">
+                                <RadioButton.IsChecked>
+                                    <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType=ListBoxItem}" Mode="TwoWay"/>
+                                </RadioButton.IsChecked>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding IconFont}" FontFamily="./Fonts/#iconfont" FontSize="22" Margin="10 0 0 0" Foreground="Red"/>
+                                    <TextBlock Margin="10 0 0 0" Text="{Binding Title}" FontSize="14" VerticalAlignment="Center"
+                                   Foreground="{Binding Foreground,RelativeSource={RelativeSource FindAncestor,AncestorLevel=1,AncestorType={x:Type RadioButton}}}" />
+                                </StackPanel>
+                            </RadioButton>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Background="#ef7e82">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource ButtonStyle}" Width="45" Click="BtnMinClick" Content="─" Height="30" Foreground="Wheat" BorderThickness="0" Background="Transparent" />
+                <Button Style="{StaticResource ButtonStyle}" Width="45" Click="BtnMaxClick" Content="☐" Height="30" Foreground="Wheat" BorderThickness="0" Background="Transparent" />
+                <Button Style="{StaticResource ButtonStyle}" Width="45" Click="BtnCloseClick" Content="✕" Height="30" Foreground="Wheat" BorderThickness="0" Background="Transparent" />
+            </StackPanel>
+            <ContentControl Grid.Row="1" x:Name="ContentControl" />
+        </Grid>
+    </Grid>
+</Window>

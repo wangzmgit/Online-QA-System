@@ -1,0 +1,14 @@
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+bin
+
+obj
+
+v1*
+DesignTimeBuild
+*.suo
+/.vs
+.vs/
+*.user
+~$*.docx
